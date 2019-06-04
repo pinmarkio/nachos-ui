@@ -12,7 +12,7 @@ const Input = props => {
     theme[status]
   );
   let IconComponent;
-  if (icon) {
+  if (icon && typeof icon === 'string') {
     IconComponent = (
       <Icon
         name={icon || iconStates[status]}
@@ -21,6 +21,8 @@ const Input = props => {
         style={[theme.icon]}
       />
     );
+  } else if (icon && typeof icon === 'function') {
+    IconComponent = icon();
   }
 
   // NOTE: Clone props and then delete Component specific props so we can
@@ -105,7 +107,7 @@ Input.propTypes = {
   height: PropTypes.number,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   theme: PropTypes.object
 };
 
